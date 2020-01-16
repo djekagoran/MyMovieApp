@@ -52,6 +52,8 @@ class SearchViewModel @Inject constructor(private val appDataManager: DataManage
 
     private fun loadData(searchView: SearchView) {
 
+        // todo replace rxJava with coroutines
+
         disposable.add(
             RxSearchObservable.fromView(searchView)
                 .debounce(500, TimeUnit.MILLISECONDS)
