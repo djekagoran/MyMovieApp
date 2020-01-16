@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true"
+    tools:context=".ui.detail_movie.detailmovie.DetailMovieFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/large">
+
+            <ImageView
+                android:id="@+id/poster"
+                android:layout_width="@dimen/details_poster_width"
+                android:layout_height="@dimen/details_poster_height"
+                android:contentDescription="@string/image_content_description"
+            />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/large"
+                    android:layout_marginLeft="@dimen/large"
+                    android:layout_marginTop="@dimen/large"
+                    android:layout_marginEnd="@dimen/large"
+                    android:layout_marginRight="@dimen/large"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    tools:text="Mission: Impossible – Rogue Nation" />
+
+                <TextView
+                    android:id="@+id/release_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/large"
+                    android:layout_marginLeft="@dimen/large"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="@dimen/medium"
+                    android:layout_marginRight="@dimen/medium"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    tools:text="2015" />
+
+                <LinearLayout
+                    android:id="@+id/rating_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/large"
+                    android:layout_marginLeft="@dimen/large"
+                    android:layout_marginTop="@dimen/medium"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="?android:attr/textColorPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rating_denominator"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="?android:attr/textColorSecondary" />
+
+                    <ImageView
+                        android:layout_width="@dimen/details_star_icon_width"
+                        android:layout_height="@dimen/details_star_icon_width"
+                        android:layout_marginStart="@dimen/small"
+                        android:layout_marginLeft="@dimen/small"
+                        android:src="@drawable/star"
+                        android:contentDescription="@string/image_content_description"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/genre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/large"
+                    android:layout_marginLeft="@dimen/large"
+                    android:layout_marginTop="@dimen/medium"
+                    android:layout_marginEnd="@dimen/large"
+                    android:layout_marginRight="@dimen/large"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    tools:text="genres" />
+
+                <ToggleButton
+                    android:id="@+id/toggle_favorite"
+                    android:layout_width="@dimen/details_favorite_icon_width"
+                    android:layout_height="@dimen/details_favorite_icon_width"
+                    android:checked="false"
+                    android:layout_gravity="end"
+                    android:padding="@dimen/small"
+                    android:background="@drawable/btn_favorite"
+                    android:textOff=""
+                    android:textOn=""
+                />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/large"
+            android:layout_marginLeft="@dimen/large"
+            android:layout_marginTop="@dimen/large"
+            android:layout_marginEnd="@dimen/large"
+            android:layout_marginRight="@dimen/large"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            tools:text="Ethan and team take on their most impossible mission yet, eradicating the Syndicate - an International rogue organization as highly skilled as they are, committed to destroying the IMF." />
+
+        <RelativeLayout
+            android:id="@+id/container_crew"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/crew_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/large"
+                android:layout_marginRight="@dimen/large"
+                android:layout_marginBottom="@dimen/small"
+                android:text="@string/title_crew"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+            <ProgressBar
+                android:id="@+id/progress_crew"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@id/crew_title"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_crew"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/crew_title" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/container_recommendation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large"
+            android:layout_marginBottom="@dimen/medium"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/recommendation_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/large"
+                android:layout_marginRight="@dimen/large"
+                android:layout_marginBottom="@dimen/small"
+                android:text="@string/title_recommendation"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+            <ProgressBar
+                android:id="@+id/progress_recommendation"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@id/recommendation_title"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_recommendation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/recommendation_title" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

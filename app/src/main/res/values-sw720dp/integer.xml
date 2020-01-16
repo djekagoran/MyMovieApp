@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="grid_movie_column">4</integer>
+    <integer name="grid_actor_column">8</integer>
+    <integer name="grid_actor_movie_column">8</integer>
+</resources>

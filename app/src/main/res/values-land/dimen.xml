@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="movie_detail_content_overlay">96dp</dimen>
+
+    <dimen name="movie_detail_content_margin_left_right">64dp</dimen>
+    <dimen name="movie_detail_content_margin_bottom">64dp</dimen>
+
+    <dimen name="profile_image_size">100dp</dimen>
+
+</resources>
