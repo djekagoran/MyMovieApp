@@ -1,6 +1,7 @@
-package com.example.kotlinfirstintro.di.app
+package com.djekagoran.mymovieapp.di
 
 import android.app.Application
+import com.djekagoran.mymovieapp.MyApp
 import com.djekagoran.mymovieapp.di.module.*
 import com.djekagoran.mymovieapp.di.module.ActivityModule
 import com.djekagoran.mymovieapp.di.module.ApplicationModule
@@ -9,7 +10,6 @@ import com.djekagoran.mymovieapp.di.scope.ApplicationScope
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
-import dagger.android.support.DaggerApplication
 import dagger.android.support.AndroidSupportInjectionModule
 
 @ApplicationScope
@@ -23,7 +23,7 @@ import dagger.android.support.AndroidSupportInjectionModule
         PicassoModule::class
     ]
 )
-interface ApplicationComponent : AndroidInjector<DaggerApplication> {
+interface ApplicationComponent : AndroidInjector<MyApp> {
 
     @Component.Builder
     interface Builder {

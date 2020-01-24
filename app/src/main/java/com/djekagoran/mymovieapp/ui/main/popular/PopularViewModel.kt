@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.djekagoran.mymovieapp.data.DataManager
+import com.djekagoran.mymovieapp.data.repository.AppDataView
 import com.djekagoran.mymovieapp.data.api.repo.GenreRepo
 import com.djekagoran.mymovieapp.data.api.repo.PopularRepo
 import com.djekagoran.mymovieapp.data.model.Genre
@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 import java.lang.Exception
 import javax.inject.Inject
 
-class PopularViewModel @Inject constructor(private val appDataManager: DataManager): ViewModel() {
+class PopularViewModel @Inject constructor(private val appDataRepository: AppDataView): ViewModel() {
 
     private var page = 1
 
@@ -41,7 +41,7 @@ class PopularViewModel @Inject constructor(private val appDataManager: DataManag
         _loading.value = true
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val data = appDataManager.loadMoviePopular(Constants.API_KEY, page)
+                val data = appDataRepository.loadMoviePopular(Constants.API_KEY, page)
                 withContext(Dispatchers.Main) {
                     onMoviesLoad(data)
                 }
@@ -60,7 +60,7 @@ class PopularViewModel @Inject constructor(private val appDataManager: DataManag
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                appDataManager.savePopular(repo.results!!)
+                appDataRepository.savePopular(repo.results!!)
             } catch (e: Exception) {
                 _toastMsg.postValue(e.message)
             }
@@ -71,7 +71,7 @@ class PopularViewModel @Inject constructor(private val appDataManager: DataManag
 
         _loading.postValue(false)
 
-        appDataManager.popular.collect {
+        appDataRepository.popular.collect {
             if (it.isNotEmpty()) {
                 _dataMovie.postValue(ArrayList(it))
                 loadDataGenres()
@@ -88,7 +88,7 @@ class PopularViewModel @Inject constructor(private val appDataManager: DataManag
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val data = appDataManager.loadMoviePopular(Constants.API_KEY, page)
+                val data = appDataRepository.loadMoviePopular(Constants.API_KEY, page)
                 withContext(Dispatchers.Main) {
                     onMoviesLoadMore(data)
                 }
@@ -118,7 +118,7 @@ class PopularViewModel @Inject constructor(private val appDataManager: DataManag
     private fun loadDataGenres() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val data = appDataManager.loadMovieGenres(Constants.API_KEY)
+                val data = appDataRepository.loadMovieGenres(Constants.API_KEY)
                 withContext(Dispatchers.Main) {
                     onGenresLoad(data)
                 }
@@ -134,7 +134,7 @@ class PopularViewModel @Inject constructor(private val appDataManager: DataManag
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                appDataManager.saveGenre(genreRepo.genres!!.toList())
+                appDataRepository.saveGenre(genreRepo.genres!!.toList())
             } catch (e: Exception) {
                 _toastMsg.postValue(e.message)
             }
@@ -142,7 +142,7 @@ class PopularViewModel @Inject constructor(private val appDataManager: DataManag
     }
 
     private suspend fun onErrorGenresLoad(throwable: Throwable) {
-        appDataManager.genres.collect {
+        appDataRepository.genres.collect {
             if (it.isNotEmpty()) {
                 _dataGenre.postValue(ArrayList(it))
             } else {

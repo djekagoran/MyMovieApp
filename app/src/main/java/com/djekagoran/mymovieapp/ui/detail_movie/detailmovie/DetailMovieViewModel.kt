@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.djekagoran.mymovieapp.data.DataManager
+import com.djekagoran.mymovieapp.data.repository.AppDataView
 import com.djekagoran.mymovieapp.data.api.repo.CrewRepo
 import com.djekagoran.mymovieapp.data.api.repo.RecommendedRepo
 import com.djekagoran.mymovieapp.data.model.Crew
@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 import java.lang.Exception
 import javax.inject.Inject
 
-class DetailMovieViewModel@Inject constructor(private val appDataManager: DataManager): ViewModel() {
+class DetailMovieViewModel@Inject constructor(private val appDataRepository: AppDataView): ViewModel() {
 
     private val _dataCrew = MutableLiveData<ArrayList<Crew>>()
     val dataCrew: LiveData<ArrayList<Crew>> = _dataCrew
@@ -53,7 +53,7 @@ class DetailMovieViewModel@Inject constructor(private val appDataManager: DataMa
         _loadingCrew.value = true
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val data = appDataManager.loadMovieCrew(id_movie, Constants.API_KEY)
+                val data = appDataRepository.loadMovieCrew(id_movie, Constants.API_KEY)
                 withContext(Dispatchers.Main) {
                     onCrewLoaded(data)
                 }
@@ -83,7 +83,7 @@ class DetailMovieViewModel@Inject constructor(private val appDataManager: DataMa
         _loadingRecomm.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val data = appDataManager.loadMovieRecommended(idMovie, Constants.API_KEY)
+                val data = appDataRepository.loadMovieRecommended(idMovie, Constants.API_KEY)
                 withContext(Dispatchers.Main) {
                     onRecommendationLoaded(data)
                 }
@@ -110,12 +110,12 @@ class DetailMovieViewModel@Inject constructor(private val appDataManager: DataMa
     fun isFavorite(movie: Movie) {
 
         viewModelScope.launch {
-            appDataManager.countFavoriteMovie(movie).collect{ _isFavorite.value = (it > 0) }
+            appDataRepository.countFavoriteMovie(movie).collect{ _isFavorite.value = (it > 0) }
         }
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                appDataManager.saveRecently(movie)
+                appDataRepository.saveRecently(movie)
             } catch (e: Exception) {
                 println(e)
             }
@@ -126,7 +126,7 @@ class DetailMovieViewModel@Inject constructor(private val appDataManager: DataMa
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                if (isChecked) appDataManager.saveFavoriteMovie(movie) else appDataManager.deleteFavoriteMovie(movie)
+                if (isChecked) appDataRepository.saveFavoriteMovie(movie) else appDataRepository.deleteFavoriteMovie(movie)
                 _isFavorite.postValue(!(_isFavorite.value)!!)
             } catch (e: Exception) {
                 _toastMsg.postValue(e.message)

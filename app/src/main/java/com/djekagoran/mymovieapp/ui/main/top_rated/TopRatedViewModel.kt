@@ -1,7 +1,7 @@
 package com.djekagoran.mymovieapp.ui.main.top_rated
 
 import androidx.lifecycle.*
-import com.djekagoran.mymovieapp.data.DataManager
+import com.djekagoran.mymovieapp.data.repository.AppDataView
 import com.djekagoran.mymovieapp.data.api.repo.GenreRepo
 import com.djekagoran.mymovieapp.data.api.repo.TopRatedRepo
 import com.djekagoran.mymovieapp.data.model.Genre
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.collect
 import java.lang.Exception
 import javax.inject.Inject
 
-class TopRatedViewModel @Inject constructor(private val appDataManager: DataManager) : ViewModel() {
+class TopRatedViewModel @Inject constructor(private val appDataRepository: AppDataView) : ViewModel() {
 
     private var page = 1
 
@@ -36,7 +36,7 @@ class TopRatedViewModel @Inject constructor(private val appDataManager: DataMana
         _loading.value = true
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val data = appDataManager.loadMovieTopRated(Constants.API_KEY, page)
+                val data = appDataRepository.loadMovieTopRated(Constants.API_KEY, page)
                 withContext(Dispatchers.Main) {
                     onMoviesLoad(data)
                 }
@@ -55,7 +55,7 @@ class TopRatedViewModel @Inject constructor(private val appDataManager: DataMana
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                appDataManager.saveTopRated(repo.results!!)
+                appDataRepository.saveTopRated(repo.results!!)
             } catch (e: Exception) {
                 _toastMsg.postValue(e.message)
             }
@@ -66,7 +66,7 @@ class TopRatedViewModel @Inject constructor(private val appDataManager: DataMana
 
         _loading.postValue(false)
 
-        appDataManager.topRated.collect {
+        appDataRepository.topRated.collect {
             if (it.isNotEmpty()) {
                 _dataMovie.postValue(ArrayList(it))
                 loadDataGenres()
@@ -83,7 +83,7 @@ class TopRatedViewModel @Inject constructor(private val appDataManager: DataMana
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val data = appDataManager.loadMovieTopRated(Constants.API_KEY, page)
+                val data = appDataRepository.loadMovieTopRated(Constants.API_KEY, page)
                 withContext(Dispatchers.Main) {
                     onMoviesLoadMore(data)
                 }
@@ -114,7 +114,7 @@ class TopRatedViewModel @Inject constructor(private val appDataManager: DataMana
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val data = appDataManager.loadMovieGenres(Constants.API_KEY)
+                val data = appDataRepository.loadMovieGenres(Constants.API_KEY)
                 withContext(Dispatchers.Main) {
                     onGenresLoad(data)
                 }
@@ -130,7 +130,7 @@ class TopRatedViewModel @Inject constructor(private val appDataManager: DataMana
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                appDataManager.saveGenre(genreRepo.genres!!.toList())
+                appDataRepository.saveGenre(genreRepo.genres!!.toList())
             } catch (e: Exception) {
                 _toastMsg.postValue(e.message)
             }
@@ -138,7 +138,7 @@ class TopRatedViewModel @Inject constructor(private val appDataManager: DataMana
     }
 
     private suspend fun onErrorGenresLoad(throwable: Throwable) {
-        appDataManager.genres.collect {
+        appDataRepository.genres.collect {
             if (it.isNotEmpty()) {
                 _dataGenre.postValue(ArrayList(it))
             } else {

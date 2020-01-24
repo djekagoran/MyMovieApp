@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.djekagoran.mymovieapp.data.DataManager
+import com.djekagoran.mymovieapp.data.repository.AppDataView
 import com.djekagoran.mymovieapp.data.api.repo.GenreRepo
 import com.djekagoran.mymovieapp.data.api.repo.SearchRepo
 import com.djekagoran.mymovieapp.data.model.Genre
@@ -24,7 +24,7 @@ import java.lang.Exception
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class SearchViewModel @Inject constructor(private val appDataManager: DataManager): ViewModel() {
+class SearchViewModel @Inject constructor(private val appDataRepository: AppDataView): ViewModel() {
 
     private var searchPage = 1
 
@@ -62,7 +62,7 @@ class SearchViewModel @Inject constructor(private val appDataManager: DataManage
                 .doOnNext { _loading.value = true }
                 .distinctUntilChanged()
                 .observeOn(Schedulers.io())
-                .switchMap{ appDataManager.loadSearch(Constants.API_KEY, it,1) }
+                .switchMap{ appDataRepository.loadSearch(Constants.API_KEY, it,1) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .map{
                     for (movie in it.results!!) {
@@ -90,7 +90,7 @@ class SearchViewModel @Inject constructor(private val appDataManager: DataManage
     fun searchLoadMore(query: String) {
         _loadingMore.value = true
         searchPage++
-        disposable.add(appDataManager.loadSearch(Constants.API_KEY, query, searchPage)
+        disposable.add(appDataRepository.loadSearch(Constants.API_KEY, query, searchPage)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .map {
@@ -121,7 +121,7 @@ class SearchViewModel @Inject constructor(private val appDataManager: DataManage
     private fun loadDataGenres() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val data = appDataManager.loadMovieGenres(Constants.API_KEY)
+                val data = appDataRepository.loadMovieGenres(Constants.API_KEY)
                 withContext(Dispatchers.Main) {
                     onGenresLoad(data)
                 }
@@ -137,7 +137,7 @@ class SearchViewModel @Inject constructor(private val appDataManager: DataManage
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                appDataManager.saveGenre(genreRepo.genres!!.toList())
+                appDataRepository.saveGenre(genreRepo.genres!!.toList())
             } catch (e: Exception) {
                 _toastMsg.postValue(e.message)
             }
@@ -145,7 +145,7 @@ class SearchViewModel @Inject constructor(private val appDataManager: DataManage
     }
 
     private suspend fun onErrorGenresLoad(throwable: Throwable) {
-        appDataManager.genres.collect {
+        appDataRepository.genres.collect {
             if (it.isNotEmpty()) {
                 _dataGenre.postValue(ArrayList(it))
             } else {

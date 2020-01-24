@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.djekagoran.mymovieapp.data.DataManager
+import com.djekagoran.mymovieapp.data.repository.AppDataView
 import com.djekagoran.mymovieapp.data.api.repo.GenreRepo
 import com.djekagoran.mymovieapp.data.model.Genre
 import com.djekagoran.mymovieapp.data.model.Movie
@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 import java.lang.Exception
 import javax.inject.Inject
 
-class FavoriteMovieViewModel @Inject constructor(private val appDataManager: DataManager): ViewModel() {
+class FavoriteMovieViewModel @Inject constructor(private val appDataRepository: AppDataView): ViewModel() {
 
     var dataMovie: LiveData<List<Movie>>? = null
 
@@ -30,7 +30,7 @@ class FavoriteMovieViewModel @Inject constructor(private val appDataManager: Dat
     private val disposable = CompositeDisposable()
 
     fun getFavoriteMovies() {
-        dataMovie = appDataManager.favoriteMovie
+        dataMovie = appDataRepository.favoriteMovie
         loadDataGenres()
     }
 
@@ -38,7 +38,7 @@ class FavoriteMovieViewModel @Inject constructor(private val appDataManager: Dat
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                if (isChecked) appDataManager.saveFavoriteMovie(movie) else appDataManager.deleteFavoriteMovie(movie)
+                if (isChecked) appDataRepository.saveFavoriteMovie(movie) else appDataRepository.deleteFavoriteMovie(movie)
             } catch (e: Exception) {
                 _errorMsg.postValue(e.message)
             }
@@ -49,7 +49,7 @@ class FavoriteMovieViewModel @Inject constructor(private val appDataManager: Dat
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val data = appDataManager.loadMovieGenres(Constants.API_KEY)
+                val data = appDataRepository.loadMovieGenres(Constants.API_KEY)
                 withContext(Dispatchers.Main) {
                     onGenresLoad(data)
                 }
@@ -65,7 +65,7 @@ class FavoriteMovieViewModel @Inject constructor(private val appDataManager: Dat
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                appDataManager.saveGenre(genreRepo.genres!!.toList())
+                appDataRepository.saveGenre(genreRepo.genres!!.toList())
             } catch (e: Exception) {
                 _errorMsg.postValue(e.message)
             }
@@ -74,7 +74,7 @@ class FavoriteMovieViewModel @Inject constructor(private val appDataManager: Dat
     }
 
     private suspend fun onErrorGenresLoad(throwable: Throwable) {
-        appDataManager.genres.collect {
+        appDataRepository.genres.collect {
             if (it.isNotEmpty()) {
                 _dataGenre.postValue(ArrayList(it))
             } else {

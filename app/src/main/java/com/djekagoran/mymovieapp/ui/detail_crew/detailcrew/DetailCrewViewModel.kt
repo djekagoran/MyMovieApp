@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.djekagoran.mymovieapp.data.DataManager
+import com.djekagoran.mymovieapp.data.repository.AppDataView
 import com.djekagoran.mymovieapp.data.model.Crew
 import com.djekagoran.mymovieapp.data.model.Movie
 import com.djekagoran.mymovieapp.utill.Constants
@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 import java.lang.Exception
 import javax.inject.Inject
 
-class DetailCrewViewModel @Inject constructor(private val appDataManager: DataManager): ViewModel() {
+class DetailCrewViewModel @Inject constructor(private val appDataRepository: AppDataView): ViewModel() {
 
     private val _dataMovie = MutableLiveData<ArrayList<Movie>>()
     val dataMovie: LiveData<ArrayList<Movie>> = _dataMovie
@@ -31,7 +31,7 @@ class DetailCrewViewModel @Inject constructor(private val appDataManager: DataMa
 
     fun isFavorite(crew: Crew): LiveData<Boolean> {
         viewModelScope.launch {
-            appDataManager.countFavoriteCrew(crew).collect{ _isFavorite.value = (it > 0) }
+            appDataRepository.countFavoriteCrew(crew).collect{ _isFavorite.value = (it > 0) }
         }
         return isFavorite
     }
@@ -40,7 +40,7 @@ class DetailCrewViewModel @Inject constructor(private val appDataManager: DataMa
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                if (_isFavorite.value!!) appDataManager.deleteFavoriteCrew(crew) else appDataManager.saveFavoriteCrew(crew)
+                if (_isFavorite.value!!) appDataRepository.deleteFavoriteCrew(crew) else appDataRepository.saveFavoriteCrew(crew)
                 _isFavorite.postValue(!(_isFavorite.value)!!)
             } catch (e: Exception) {
                 _toastMsg.postValue(e.message)
@@ -53,7 +53,7 @@ class DetailCrewViewModel @Inject constructor(private val appDataManager: DataMa
         _loading.value = true
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val data = appDataManager.loadActorMovie(crew.id, Constants.API_KEY)
+                val data = appDataRepository.loadActorMovie(crew.id, Constants.API_KEY)
                 withContext(Dispatchers.Main) {
                     _loading.value = false
                     _dataMovie.value = data.cast

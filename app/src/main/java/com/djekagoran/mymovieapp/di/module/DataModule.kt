@@ -1,8 +1,8 @@
 package com.djekagoran.mymovieapp.di.module
 
 import android.content.SharedPreferences
-import com.djekagoran.mymovieapp.data.AppDataManager
-import com.djekagoran.mymovieapp.data.DataManager
+import com.djekagoran.mymovieapp.data.repository.AppDataRepository
+import com.djekagoran.mymovieapp.data.repository.AppDataView
 import com.djekagoran.mymovieapp.data.api.APIInterface
 import com.djekagoran.mymovieapp.data.local.room.CrewDao
 import com.djekagoran.mymovieapp.data.local.room.MovieDao
@@ -17,8 +17,12 @@ class DataModule {
 
     @Provides
     @ApplicationScope
-    fun getAppDataManager(apiInterface: APIInterface, movieDao: MovieDao, actorDao: CrewDao): DataManager {
-        return AppDataManager(apiInterface, movieDao, actorDao)
+    fun getAppDataManager(apiInterface: APIInterface, movieDao: MovieDao, actorDao: CrewDao): AppDataView {
+        return AppDataRepository(
+            apiInterface,
+            movieDao,
+            actorDao
+        )
     }
 
     @Provides

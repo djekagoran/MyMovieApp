@@ -1,4 +1,4 @@
-package com.djekagoran.mymovieapp.data
+package com.djekagoran.mymovieapp.data.repository
 
 import com.djekagoran.mymovieapp.data.api.APIInterface
 import com.djekagoran.mymovieapp.data.local.room.CrewDao
@@ -10,10 +10,10 @@ import com.djekagoran.mymovieapp.data.model.MovieType
 import kotlinx.coroutines.flow.flow
 import java.util.ArrayList
 import javax.inject.Inject
-class AppDataManager @Inject
+class AppDataRepository @Inject
 constructor(private val apiInterface: APIInterface,
             private val movieDao: MovieDao,
-            private val actorDao: CrewDao) : DataManager {
+            private val actorDao: CrewDao) : AppDataView {
 
     override suspend fun loadMoviePopular(apiKey: String, page: Int) = apiInterface.loadMoviePopular(apiKey, page)
 
