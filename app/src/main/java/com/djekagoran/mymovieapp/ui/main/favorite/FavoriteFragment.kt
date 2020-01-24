@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.djekagoran.mymovieapp.R
 import com.djekagoran.mymovieapp.base.BaseFragment
@@ -35,6 +36,15 @@ class FavoriteFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(FavoriteViewModel::class.java)
+
+
+        viewModel.isNight()
+
+        viewModel.isNight.observe(this, Observer { btn_theme_switch.isChecked = it })
+
+        btn_theme_switch.setOnCheckedChangeListener { _, p1 ->
+            viewModel.onThemeCheckedChange(p1)
+        }
 
         card_favorite_movie.setOnClickListener {
             val intent = Intent(context, FavoriteMovieActivity::class.java)

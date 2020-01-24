@@ -1,126 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".ui.main.favorite.FavoriteFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.main.favorite.FavoriteFragment">
+        android:padding="@dimen/large"
+        android:orientation="vertical">
 
-    <LinearLayout
+    <Switch
+            android:id="@+id/btn_theme_switch"
+            android:text="@string/text_theme_switch"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/large"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/medium"
+            android:padding="@dimen/medium"/>
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/card_favorite_movie"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:cardUseCompatPadding="true"
             android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-                android:id="@+id/card_favorite_movie"
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                app:cardUseCompatPadding="true"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@drawable/bg_gradient"
+                android:orientation="horizontal">
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:background="@drawable/bg_gradient"
-                    android:orientation="horizontal">
+            <ImageView
+                    android:layout_width="@dimen/details_favorite_icon_width"
+                    android:layout_height="@dimen/details_favorite_icon_width"
+                    android:layout_marginRight="@dimen/large"
+                    android:layout_marginEnd="@dimen/large"
+                    android:src="@drawable/favorite_movie"
+                    android:contentDescription="@string/image_content_description"
+            />
 
-                <ImageView
-                        android:layout_width="@dimen/details_favorite_icon_width"
-                        android:layout_height="@dimen/details_favorite_icon_width"
-                        android:layout_marginRight="@dimen/large"
-                        android:layout_marginEnd="@dimen/large"
-                        android:src="@drawable/favorite_movie"
-                        android:contentDescription="@string/image_content_description"
-                />
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:text="@string/title_favorite_movie"
+            />
 
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:text="@string/title_favorite_movie"
-                />
+        </LinearLayout>
 
-            </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-        </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+            android:id="@+id/card_favorite_actor"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/large"
+            app:cardUseCompatPadding="true"
+            android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-                android:id="@+id/card_favorite_actor"
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginTop="@dimen/large"
-                app:cardUseCompatPadding="true"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@drawable/bg_gradient"
+                android:orientation="horizontal">
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:background="@drawable/bg_gradient"
-                    android:orientation="horizontal">
+            <ImageView
+                    android:layout_width="@dimen/details_favorite_icon_width"
+                    android:layout_height="@dimen/details_favorite_icon_width"
+                    android:layout_marginRight="@dimen/large"
+                    android:layout_marginEnd="@dimen/large"
+                    android:src="@drawable/favorite_crew"
+                    android:contentDescription="@string/image_content_description"
+            />
 
-                <ImageView
-                        android:layout_width="@dimen/details_favorite_icon_width"
-                        android:layout_height="@dimen/details_favorite_icon_width"
-                        android:layout_marginRight="@dimen/large"
-                        android:layout_marginEnd="@dimen/large"
-                        android:src="@drawable/favorite_crew"
-                        android:contentDescription="@string/image_content_description"
-                />
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:text="@string/title_favorite_actors"
+            />
 
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:text="@string/title_favorite_actors"
-                />
+        </LinearLayout>
 
-            </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-        </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+            android:id="@+id/card_recently_movie"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/large"
+            app:cardUseCompatPadding="true"
+            android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-                android:id="@+id/card_recently_movie"
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginTop="@dimen/large"
-                app:cardUseCompatPadding="true"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@drawable/bg_gradient"
+                android:orientation="horizontal">
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:background="@drawable/bg_gradient"
-                    android:orientation="horizontal">
+            <ImageView
+                    android:layout_width="@dimen/details_favorite_icon_width"
+                    android:layout_height="@dimen/details_favorite_icon_width"
+                    android:padding="@dimen/small"
+                    android:layout_marginRight="@dimen/large"
+                    android:layout_marginEnd="@dimen/large"
+                    android:src="@drawable/history"
+                    android:contentDescription="@string/image_content_description"
+            />
 
-                <ImageView
-                        android:layout_width="@dimen/details_favorite_icon_width"
-                        android:layout_height="@dimen/details_favorite_icon_width"
-                        android:padding="@dimen/small"
-                        android:layout_marginRight="@dimen/large"
-                        android:layout_marginEnd="@dimen/large"
-                        android:src="@drawable/history"
-                        android:contentDescription="@string/image_content_description"
-                />
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:text="@string/title_recently_movie"
+            />
 
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:text="@string/title_recently_movie"
-                />
+        </LinearLayout>
 
-            </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

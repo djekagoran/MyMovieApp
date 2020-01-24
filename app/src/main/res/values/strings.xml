@@ -20,5 +20,6 @@
     <string name="no_favorites">No favorite movies</string>
     <string name="no_actors">No favorite crews</string>
     <string name="no_recently">No movie recently viewed</string>
+    <string name="text_theme_switch">Theme day/night</string>
 
 </resources>
