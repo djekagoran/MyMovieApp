@@ -5,9 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.djekagoran.mymovieapp.data.DataManager
+import com.djekagoran.mymovieapp.data.repository.SharedPrefView
 import javax.inject.Inject
 
-class FavoriteViewModel @Inject constructor(private val appDataManager: DataManager): ViewModel() {
+class FavoriteViewModel @Inject constructor(private val sharedPref: SharedPrefView): ViewModel() {
 
     private val _isNight = MutableLiveData<Boolean>()
     val isNight: LiveData<Boolean> = _isNight
@@ -21,6 +22,6 @@ class FavoriteViewModel @Inject constructor(private val appDataManager: DataMana
     }
 
     fun isNight() {
-        _isNight.value = false
+        _isNight.value = sharedPref.loadIsNight()
     }
 }

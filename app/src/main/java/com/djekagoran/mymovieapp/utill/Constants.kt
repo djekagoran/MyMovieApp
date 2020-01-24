@@ -17,4 +17,6 @@ object Constants {
     const val VIEW_TYPE_ITEM = 2313
     const val VIEW_TYPE_LOADING = 2312
 
+    const val IS_NIGHT = "is_night"
+
 }
