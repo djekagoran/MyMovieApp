@@ -3,8 +3,6 @@ package com.djekagoran.mymovieapp.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.djekagoran.mymovieapp.R
@@ -13,12 +11,7 @@ import com.djekagoran.mymovieapp.data.model.Genre
 import com.djekagoran.mymovieapp.data.model.Movie
 import com.djekagoran.mymovieapp.ui.detail_movie.DetailMovieActivity
 import com.djekagoran.mymovieapp.ui.detail_movie.detailmovie.DetailMovieFragment
-import com.djekagoran.mymovieapp.ui.main.favorite.FavoriteFragment
-import com.djekagoran.mymovieapp.ui.main.popular.PopularFragment
-import com.djekagoran.mymovieapp.ui.main.search.SearchFragment
-import com.djekagoran.mymovieapp.ui.main.top_rated.TopRatedFragment
 import com.djekagoran.mymovieapp.utill.Constants
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.ArrayList
 
