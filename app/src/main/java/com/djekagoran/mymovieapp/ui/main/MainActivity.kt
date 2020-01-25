@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.djekagoran.mymovieapp.R
 import com.djekagoran.mymovieapp.base.BaseActivity
 import com.djekagoran.mymovieapp.data.model.Genre
@@ -26,63 +28,9 @@ class MainActivity : BaseActivity(), OnFragmentListInteraction {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(bottomMenuListener)
+        val nav = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+        NavigationUI.setupWithNavController(bottomNavigationView, nav.navController)
 
-        if (savedInstanceState == null) {
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.container, PopularFragment.newInstance())
-            transaction.commit()
-        }
-
-        supportFragmentManager.addOnBackStackChangedListener {
-            when (supportFragmentManager.findFragmentById(R.id.container)) {
-                is PopularFragment -> bottomNavigationView.menu.getItem(0).isChecked = true
-                is TopRatedFragment -> bottomNavigationView.menu.getItem(1).isChecked = true
-                is SearchFragment -> bottomNavigationView.menu.getItem(2).isChecked = true
-                is FavoriteFragment -> bottomNavigationView.menu.getItem(3).isChecked = true
-                else -> println("Fragment removed")
-            }
-            if (container_movie_detail != null) {
-                when (supportFragmentManager.findFragmentById(R.id.container_movie_detail)) {
-                    is DetailMovieFragment -> println("O.K.")
-                    else -> println("Fragment removed")
-                }
-            }
-        }
-    }
-
-    private var bottomMenuListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
-        when (menuItem.itemId) {
-            R.id.navigation_popular -> {
-                loadFragment(PopularFragment.newInstance())
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_top_rated -> {
-                loadFragment(TopRatedFragment.newInstance())
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_search -> {
-                loadFragment(SearchFragment.newInstance())
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_favorite -> {
-                loadFragment(FavoriteFragment.newInstance())
-                return@OnNavigationItemSelectedListener true
-            }
-        }
-        false
-    }
-
-    private fun loadFragment(fragment: Fragment) {
-
-        if (container_movie_detail != null) {
-            container_movie_detail?.visibility = View.GONE
-        }
-
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
     }
 
     override fun onListFragmentInteraction(movie: Movie, list_genre: ArrayList<Genre>) {

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/main_navigation_graph"
+            app:startDestination="@id/navigation_popular">
+    <fragment android:id="@+id/navigation_popular"
+              android:name="com.djekagoran.mymovieapp.ui.main.popular.PopularFragment"
+              android:label="popular_fragment" tools:layout="@layout/popular_fragment">
+        <action android:id="@+id/action_navigation_popular_to_navigation_top_rated"
+                app:destination="@id/navigation_top_rated"/>
+    </fragment>
+    <fragment android:id="@+id/navigation_top_rated"
+              android:name="com.djekagoran.mymovieapp.ui.main.top_rated.TopRatedFragment"
+              android:label="top_rated_fragment" tools:layout="@layout/top_rated_fragment">
+        <action android:id="@+id/action_navigation_top_rated_to_navigation_search"
+                app:destination="@id/navigation_search"/>
+    </fragment>
+    <fragment android:id="@+id/navigation_search" android:name="com.djekagoran.mymovieapp.ui.main.search.SearchFragment"
+              android:label="search_fragment" tools:layout="@layout/search_fragment">
+        <action android:id="@+id/action_navigation_search_to_navigation_favorite"
+                app:destination="@id/navigation_favorite"/>
+    </fragment>
+    <fragment android:id="@+id/navigation_favorite"
+              android:name="com.djekagoran.mymovieapp.ui.main.favorite.FavoriteFragment"
+              android:label="favorite_tab_fragment" tools:layout="@layout/favorite_fragment">
+    </fragment>
+</navigation>
